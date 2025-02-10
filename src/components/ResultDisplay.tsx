@@ -17,7 +17,7 @@ const ResultDisplay = ({ target, change }: ResultDisplayProps) => (
       color="text.secondary"
       gutterBottom
     >
-      (Increased by {change})
+      {change && `(Increased by ${change})`}
     </Typography>
   </>
 );
