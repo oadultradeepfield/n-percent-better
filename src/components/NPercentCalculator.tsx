@@ -1,20 +1,10 @@
-import { useState, useEffect } from "react";
 import { Box, Paper } from "@mui/material";
 import CalculatorHeader from "./CalculatorHeader";
 import InputField from "./InputField";
 import ResultDisplay from "./ResultDisplay";
-
-const useLocalStorageState = (key: any, defaultValue: any) => {
-  const [state, setState] = useState(
-    () => localStorage.getItem(key) || defaultValue
-  );
-
-  useEffect(() => {
-    localStorage.setItem(key, state);
-  }, [key, state]);
-
-  return [state, setState];
-};
+import DetailedMetrics from "./DetailedMetrics";
+import useLocalStorageState from "../hooks/useLocalStorage";
+import useCalculatedMetrics from "../hooks/useCalculatedMetrics";
 
 const NPercentCalculator = () => {
   const [currentState, setCurrentState] = useLocalStorageState(
@@ -25,20 +15,10 @@ const NPercentCalculator = () => {
     "percentAmount",
     "1"
   );
-
-  const calculateTarget = () => {
-    const current = parseFloat(currentState);
-    const percent = parseFloat(percentAmount);
-    if (isNaN(current) || isNaN(percent)) return "";
-    return (current * (1 + percent / 100)).toFixed(2);
-  };
-
-  const calculateChange = () => {
-    const current = parseFloat(currentState);
-    const percent = parseFloat(percentAmount);
-    if (isNaN(current) || isNaN(percent)) return "";
-    return ((current * percent) / 100).toFixed(2);
-  };
+  const { targetList, changeList } = useCalculatedMetrics(
+    currentState,
+    percentAmount
+  );
 
   return (
     <Box
@@ -71,9 +51,10 @@ const NPercentCalculator = () => {
             onChange={(e) => setPercentAmount(e.target.value)}
           />
           <ResultDisplay
-            target={calculateTarget()}
-            change={calculateChange()}
+            target={targetList["1 Day"]}
+            change={changeList["1 Day"]}
           />
+          <DetailedMetrics targetList={targetList} changeList={changeList} />
         </Box>
       </Paper>
     </Box>
