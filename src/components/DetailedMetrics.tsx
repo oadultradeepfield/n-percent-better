@@ -26,7 +26,7 @@ const MetricDisplay = ({
   ) : null;
 
 const DetailedMetrics = ({ targetList, changeList }: DetailedMetricsProps) => {
-  const timeFrames = ["1 Week", "1 Month", "3 Months", "1 Year"];
+  const timeFrames = ["1 Week", "1 Month", "3 Months", "6 Months", "1 Year"];
 
   return (
     <>
